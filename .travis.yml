@@ -1,0 +1,26 @@
+language: java
+
+jdk:
+  - openjdk14
+
+sudo: true
+services:
+  - postgresql
+before_script:
+  - psql -c 'create database chat;' -U postgres
+
+env:
+  global:
+   - CODECOV_TOKEN="55d650c1-bfaa-4ece-ad77-33f76fdbc232"
+
+# после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
+# Здесь используется сторонний сервис https://codecov.io/
+after_success:
+ - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email:
+    recipients:
+      - kirshaav@yandex.ru
+    on_success: never # default: change
+    on_failure: always # default: always

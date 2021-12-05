@@ -1,0 +1,68 @@
+@startuml
+
+'hide the spot
+'hide circle
+
+'avoid problems with angled crows feet
+'skinparam linetype ortho
+'skinparam linetype polyline
+'skinparam linetype polyline
+'skinparam linetype polyline
+entity "Person" as p << (T,#FF7700)>> {
+  id : serial
+  name : text
+  email : text
+  password : text
+  role_id : int[] person_role(role_id)
+  room_id : int[] room_person(room_id)
+  ..
+}
+
+entity "Room" as rm << (T,#FF7700)>>{
+  id : serial
+  title : text
+  date : timestamp
+  creator_id : int person(id)
+  person_id : int[] room_person(person_id)
+  ..
+}
+
+entity "Role" as rl << (T,#FF7700)>>{
+  id : serial
+  role : text
+  person_id : int[] person_role(person_id)
+  ..
+}
+
+entity "Message" as m <<T, #FF7700)>>{
+  id : serial
+  text : text
+  date : timestamp
+  author_id : int person(id)
+  room_id : int room(id)
+  ..
+}
+
+entity "Participation" as part << (T,#FF7700) room_person >>{
+  id : serial
+  room_id : int room(id)
+  person_id : int person(id)
+  ..
+}
+
+entity "Person_Role" as act << (T,#FF7700) person_role >>{
+  id : serial
+  person_id : int person(id)
+  role_id : int role(id)
+  ..
+}
+
+p::room_id "one" <-- "many" part::room_id
+p::role_id "one" <-- "many" act::role_id
+rm::person_id "one" <-- "many" part::person_id
+rm::creator_id "many" --> "one" p::id
+m::author_id "many" --> "one" p::id
+m::room_id "many" --> "one" rm::id
+rl::person_id "one" <-- "many" act::person_id
+@enduml
+
