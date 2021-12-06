@@ -2,6 +2,7 @@ package ru.job4j.chat.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Table(name = "role")
 @Entity
@@ -33,6 +34,8 @@ public class Role {
     public void setName(String name) {
         this.role = role;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

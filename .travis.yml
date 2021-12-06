@@ -11,7 +11,7 @@ before_script:
 
 env:
   global:
-   - CODECOV_TOKEN="55d650c1-bfaa-4ece-ad77-33f76fdbc232"
+   - CODECOV_TOKEN="f15f38cc-ae2e-4968-b1a7-c40bd33440a9"
 
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонний сервис https://codecov.io/
