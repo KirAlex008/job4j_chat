@@ -1,6 +1,9 @@
 package ru.job4j.chat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,6 +14,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String role;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+    private Set<Person> persons = new HashSet<>();
 
     public Role(String role) {
         this.role = role;

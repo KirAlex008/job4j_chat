@@ -1,10 +1,6 @@
 package ru.job4j.chat.model;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -16,13 +12,18 @@ public class Person {
     private int id;
     private String login;
     private String password;
-    @JsonManagedReference
-    @ManyToMany(cascade = CascadeType.PERSIST)
+
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "person_role", joinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles = new HashSet<>();
 
     public Person() {
+    }
+
+    public Person(String login, String password) {
+        this.login = login;
+        this.password = password;
     }
 
     public int getId() {
