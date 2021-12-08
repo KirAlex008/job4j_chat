@@ -19,6 +19,11 @@ public class Person {
     @JoinTable(name = "person_roles", joinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(name = "person_rooms", joinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "room_id", referencedColumnName = "id")})
+    private Set<Room> rooms = new HashSet<>();
 
     public Person() {
     }

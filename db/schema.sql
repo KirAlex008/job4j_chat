@@ -12,14 +12,13 @@ create table if not exists room(
 create table if not exists message(
      id serial primary key,
      text text default '',
-     author_id int references person(id) on delete no action,
-     room_id int references room(id) on delete no action
+     author_id int references person(id),
+     room_id int references room(id)
 );
 
-create table if not exists participation(
-     id serial primary key,
-     room_id int references room(id) on delete no action,
-     person_id int references person(id) on delete no action
+create table if not exists person_rooms (
+     room_id int references room(id),
+     person_id int references person(id)
 );
 
 CREATE TABLE IF NOT EXISTS role (
