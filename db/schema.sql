@@ -30,4 +30,4 @@ CREATE TABLE IF NOT EXISTS role (
 CREATE TABLE IF NOT EXISTS person_roles (
      person_id int references person(id),
      role_id int references role(id)
-)
+);
