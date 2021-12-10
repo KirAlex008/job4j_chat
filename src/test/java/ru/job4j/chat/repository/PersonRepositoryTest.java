@@ -22,7 +22,7 @@ class PersonRepositoryTest {
     public void whenCreatePerson() {
         Person person = new Person("test@mail.ru", "123");
         personRepository.save(person);
-        Person result = personRepository.findById(person.getId()).orElse(new Person());
+        Person result = personRepository.findPersonById(person.getId());
         Assert.assertEquals(person, result);
     }
 
