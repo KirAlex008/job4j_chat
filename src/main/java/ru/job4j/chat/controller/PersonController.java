@@ -83,10 +83,12 @@ public class PersonController {
     public void exceptionHandler(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType("application/json");
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
+        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() {
+            {
             put("message", e.getMessage());
             put("type", e.getClass());
-        }}));
+        }
+        }));
         LOGGER.error(e.getLocalizedMessage());
     }
 }
