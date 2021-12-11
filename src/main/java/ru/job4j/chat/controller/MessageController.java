@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.chat.model.Message;
 import ru.job4j.chat.repository.MessageRepository;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -47,5 +48,15 @@ public class MessageController {
     public ResponseEntity<Void> update(@RequestBody Message message) {
         this.messageRepository.save(message);
         return ResponseEntity.ok().build();
+    }
+    @PatchMapping("/patch")
+    public Message path(@RequestBody Message message) throws InvocationTargetException, IllegalAccessException {
+        var current = messageRepository.findById(message.getId());
+        if (!current.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        Patch<Message> patch = new Patch<>();
+        messageRepository.save(patch.getPatch(current.get(), message));
+        return current.get();
     }
 }

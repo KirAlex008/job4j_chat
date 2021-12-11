@@ -10,6 +10,7 @@ import ru.job4j.chat.model.Room;
 import ru.job4j.chat.repository.PersonRepository;
 import ru.job4j.chat.repository.RoomRepository;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -57,5 +58,16 @@ public class RoomController {
     public ResponseEntity<Void> update(@RequestBody Room room) {
         this.roomRepository.save(room);
         return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/patch")
+    public Room path(@RequestBody Room room) throws InvocationTargetException, IllegalAccessException {
+        var current = roomRepository.findById(room.getId());
+        if (!current.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+        Patch<Room> patch = new Patch<>();
+        roomRepository.save(patch.getPatch(current.get(), room));
+        return current.get();
     }
 }
