@@ -20,14 +20,6 @@ public class Person {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles = new HashSet<>();
 
-    public Set<Room> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(Set<Room> rooms) {
-        this.rooms = rooms;
-    }
-
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(name = "person_rooms", joinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "id")},
@@ -58,14 +50,28 @@ public class Person {
         this.login = login;
     }
 
-
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(Set<Room> rooms) {
+        this.rooms = rooms;
     }
 
     @Override
@@ -85,11 +91,4 @@ public class Person {
         return Objects.hash(id);
     }
 
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }

@@ -41,7 +41,13 @@ public class Role {
         this.role = role;
     }
 
+    public String getRole() {
+        return role;
+    }
 
+    public void setRole(String role) {
+        this.role = role;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -58,14 +64,6 @@ public class Role {
     @Override
     public int hashCode() {
         return Objects.hash(id);
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 
 }
