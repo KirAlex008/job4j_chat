@@ -3,6 +3,7 @@ package ru.job4j.chat.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -13,6 +14,7 @@ public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @NotBlank(message = "Title must be not empty")
     private String name;
     @JsonIgnore
     @ManyToMany(mappedBy = "rooms", fetch = FetchType.LAZY)

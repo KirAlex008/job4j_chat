@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.chat.model.Message;
 import ru.job4j.chat.repository.MessageRepository;
 
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,7 @@ public class MessageController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Message> create(@RequestBody Message message) {
+    public ResponseEntity<Message> create(@Valid @RequestBody Message message) {
         return new ResponseEntity<Message>(
                 this.messageRepository.save(message),
                 HttpStatus.CREATED
@@ -45,12 +46,12 @@ public class MessageController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Message message) {
+    public ResponseEntity<Void> update(@Valid @RequestBody Message message) {
         this.messageRepository.save(message);
         return ResponseEntity.ok().build();
     }
     @PatchMapping("/patch")
-    public Message path(@RequestBody Message message) throws InvocationTargetException, IllegalAccessException {
+    public Message path(@Valid @RequestBody Message message) throws InvocationTargetException, IllegalAccessException {
         var current = messageRepository.findById(message.getId());
         if (!current.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

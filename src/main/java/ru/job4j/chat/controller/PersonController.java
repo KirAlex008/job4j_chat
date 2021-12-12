@@ -14,6 +14,7 @@ import ru.job4j.chat.repository.PersonRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -41,7 +42,7 @@ public class PersonController {
     }
 
     @PostMapping("/login")
-    public Person loginPerson(@RequestBody Person person, HttpServletRequest request) {
+    public Person loginPerson(@Valid @RequestBody Person person, HttpServletRequest request) {
         return personRepository.findByLogin(person.getLogin());
     }
 
@@ -62,7 +63,7 @@ public class PersonController {
     }
 
     @PostMapping("/sign-up")
-    public ResponseEntity<Person> create(@RequestBody Person person) {
+    public ResponseEntity<Person> create(@Valid @RequestBody Person person) {
         var pass = person.getPassword();
         if (pass.length() < 6) {
             throw new IllegalArgumentException("Invalid password. Password length must be more than 5 characters.");
@@ -75,7 +76,7 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
+    public ResponseEntity<Void> update(@Valid @RequestBody Person person) {
         this.personRepository.save(person);
         return ResponseEntity.ok().build();
     }
@@ -94,7 +95,7 @@ public class PersonController {
     }
 
     @PatchMapping("/patch")
-    public Person path(@RequestBody Person person) throws InvocationTargetException, IllegalAccessException {
+    public Person path(@Valid @RequestBody Person person) throws InvocationTargetException, IllegalAccessException {
         var current = personRepository.findById(person.getId());
         if (!current.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

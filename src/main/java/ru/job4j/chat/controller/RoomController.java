@@ -10,6 +10,7 @@ import ru.job4j.chat.model.Room;
 import ru.job4j.chat.repository.PersonRepository;
 import ru.job4j.chat.repository.RoomRepository;
 
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Set;
@@ -47,7 +48,7 @@ public class RoomController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Room> create(@RequestBody Room room) {
+    public ResponseEntity<Room> create(@Valid @RequestBody Room room) {
         return new ResponseEntity<Room>(
                 this.roomRepository.save(room),
                 HttpStatus.CREATED
@@ -61,7 +62,7 @@ public class RoomController {
     }
 
     @PatchMapping("/patch")
-    public Room path(@RequestBody Room room) throws InvocationTargetException, IllegalAccessException {
+    public Room path(@Valid @RequestBody Room room) throws InvocationTargetException, IllegalAccessException {
         var current = roomRepository.findById(room.getId());
         if (!current.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);

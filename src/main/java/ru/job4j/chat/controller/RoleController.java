@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.job4j.chat.model.Role;
 import ru.job4j.chat.repository.RoleRepository;
 
+import javax.validation.Valid;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +39,7 @@ public class RoleController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Role> create(@RequestBody Role role) {
+    public ResponseEntity<Role> create(@Valid @RequestBody Role role) {
         return new ResponseEntity<Role>(
                 this.roleRepository.save(role),
                 HttpStatus.CREATED
@@ -46,13 +47,13 @@ public class RoleController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Role role) {
+    public ResponseEntity<Void> update(@Valid @RequestBody Role role) {
         this.roleRepository.save(role);
         return ResponseEntity.ok().build();
     }
 
     @PatchMapping("/patch")
-    public Role path(@RequestBody Role role) throws InvocationTargetException, IllegalAccessException {
+    public Role path(@Valid @RequestBody Role role) throws InvocationTargetException, IllegalAccessException {
         var current = roleRepository.findById(role.getId());
         if (!current.isPresent()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
